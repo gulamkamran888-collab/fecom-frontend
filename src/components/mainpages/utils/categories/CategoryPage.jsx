@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import GlobalState from "../../../../GlobalState";
 import ProductList from "../productLists/ProductList";
-import Pagination from "../../../pagination/_tmp";
+import Pagination from "../../../pagination/Pagination";
 
 function CategoryPage() {
   const { id } = useParams();
