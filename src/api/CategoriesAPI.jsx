@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import publicApi from "./publicApi";
+import publicApi from "./tempApi";
 
 function CategoriesAPI() {
   const [categories, setCategories] = useState([]);

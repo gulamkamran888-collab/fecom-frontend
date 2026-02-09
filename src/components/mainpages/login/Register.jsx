@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
-import publicApi from "../../../api/publicApi";
+import publicApi from "../../../api/tempApi";
 
 function Register() {
   const [user, setUser] = useState({
