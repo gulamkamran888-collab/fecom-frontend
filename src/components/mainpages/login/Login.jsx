@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 import { useContext } from "react";
 import GlobalState from "../../../GlobalState";
-import publicApi from "../../../api/tempApi";
+import publicApi from "../../../api/publicApi";
 
 function Login() {
   const state = useContext(GlobalState);
