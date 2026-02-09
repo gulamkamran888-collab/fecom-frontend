@@ -2,8 +2,8 @@ import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import GlobalState from "../../../../GlobalState";
-import Pagination from "../../../pagination/pagination";
 import ProductList from "../productLists/ProductList";
+import Pagination from "../../../pagination/Pagination";
 
 function CategoryPage() {
   const { id } = useParams();
