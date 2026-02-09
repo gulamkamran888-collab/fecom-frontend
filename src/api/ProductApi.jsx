@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import publicApi from "./tempApi";
+import publicApi from "./publicApi";
 function ProductApi() {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
