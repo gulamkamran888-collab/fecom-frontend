@@ -43,7 +43,7 @@ function Cart() {
         `/api/order`,
         { cart },
         // { headers: { Authorization: token } },
-        // { headers: { Authorization: `Bearer ${token}` } },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       alert("Order placed successfully ✅");

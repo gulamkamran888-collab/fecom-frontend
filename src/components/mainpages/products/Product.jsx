@@ -5,6 +5,8 @@ import ProductList from "../utils/productLists/ProductList";
 import HomeSlider from "../utils/slider/HomeSlider";
 import CategoryBar from "../utils/categories/CategoryBar";
 import Pagination from "../../pagination/Pagination";
+import { useEffect } from "react";
+
 
 function Product() {
   const state = useContext(GlobalState);
@@ -13,8 +15,15 @@ function Product() {
   const [, setSort] = state.productAPI.sort;
   const [page, setPage] = state.productAPI.page;
   const [total] = state.productAPI.total;
+  const [, setCategory] = state.productAPI.category;
+
 
   if (!products) return <h2>Loading...</h2>;
+
+  useEffect(() => {
+    setCategory(""); // 🔥 RESET CATEGORY
+    setPage(1); // pagination bhi reset
+  }, []);
 
   return (
     <div className="products-page">

@@ -42,27 +42,33 @@ function AdminProductList() {
         </thead>
 
         <tbody>
-          {products.map((p) => (
-            <tr key={p._id}>
-              <td>
-                <img src={p.images.url} alt={p.title} />
-              </td>
-              <td>{p.title}</td>
-              <td>₹{p.price}</td>
-              <td>{p.category?.name || "—"}</td>
-              <td className="actions">
-                <Link to={`/admin/edit-product/${p._id}`} className="btn-edit">
-                  Edit
-                </Link>
-                <button
-                  onClick={() => deleteProduct(p._id)}
-                  className="btn-delete"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
+          {products
+            .filter((p) => p.images && p.images.url)
+            .map((p) => (
+              <tr key={p._id}>
+                <td>
+                  {/* <img src={p.images.url} alt={p.title} /> */}
+                  <img src={p.images?.url || "/no-image.png"} alt={p.title} />
+                </td>
+                <td>{p.title}</td>
+                <td>₹{p.price}</td>
+                <td>{p.category?.name || "—"}</td>
+                <td className="actions">
+                  <Link
+                    to={`/admin/edit-product/${p._id}`}
+                    className="btn-edit"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => deleteProduct(p._id)}
+                    className="btn-delete"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
       <Pagination page={page} setPage={setPage} total={total} limit={6} />
