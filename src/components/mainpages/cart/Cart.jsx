@@ -42,7 +42,8 @@ function Cart() {
       await authApi.post(
         `/api/order`,
         { cart },
-        { headers: { Authorization: token } },
+        // { headers: { Authorization: token } },
+        // { headers: { Authorization: `Bearer ${token}` } },
       );
 
       alert("Order placed successfully ✅");

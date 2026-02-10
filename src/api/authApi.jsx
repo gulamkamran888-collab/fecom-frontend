@@ -25,7 +25,7 @@ authApi.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const res = await axios.post(
+        const res = await axios.get(
           `${import.meta.env.VITE_API_URL}/user/refreshtoken`,
           {},
           { withCredentials: true },

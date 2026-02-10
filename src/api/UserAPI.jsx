@@ -13,12 +13,9 @@ function UserAPI(token) {
 
     const getUser = async () => {
       try {
-        const res = await authApi.get(
-          `/user/info`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        );
+        const res = await authApi.get(`/user/info`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         setIsLogged(true);
         setCart(res.data.cart || []);
@@ -41,7 +38,7 @@ function UserAPI(token) {
         await authApi.patch(
           "/user/addcart",
           { cart },
-          { headers: { Authorization: `Bearer ${token}` } },
+          // { headers: { Authorization: `Bearer ${token}` } },
         );
       } catch (err) {
         console.log("Cart save error", err);
