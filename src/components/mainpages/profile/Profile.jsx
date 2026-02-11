@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Profile.css";
 import GlobalState from "../../../GlobalState";
 import authApi from "../../../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const navigate = useNavigate();
   const state = useContext(GlobalState);
   const [token] = state.token;
   const [isLogged, setIsLogged] = state.userAPI.isLogged;
@@ -55,10 +57,11 @@ function Profile() {
   };
 
   const logoutUser = async () => {
-    await authApi.get(`/user/logout`);
+    await authApi.get(`/user/logout`, { withCredentials: true });
     localStorage.clear();
     setIsLogged(false);
-    window.location.href = "/login";
+    // window.location.href = "/login";
+    navigate("/login");
   };
 
   return (

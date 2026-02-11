@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { useContext } from "react";
 import GlobalState from "../../../GlobalState";
 import publicApi from "../../../api/publicApi";
 
 function Login() {
+  const navigate = useNavigate();
   const state = useContext(GlobalState);
   const [, setToken] = state.token;
   const [user, setUser] = useState({
@@ -21,15 +22,21 @@ function Login() {
   const loginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await publicApi.post(`/user/login`, { ...user });
+      const res = await publicApi.post(
+        `/user/login`,
+        { ...user },
+        { withCredentials: true },
+      );
       localStorage.setItem("firstLogin", true);
       localStorage.setItem("accessToken", res.data.accesstoken);
       setToken(res.data.accesstoken);
 
       if (res.data.user.role === 1) {
-        window.location.href = "/admin/dashboard";
+        // window.location.href = "/admin/dashboard";
+        navigate("/admin/dashboard");
       } else {
-        window.location.href = "/";
+        // window.location.href = "/";
+        navigate("/");
       }
     } catch (error) {
       alert(error.response?.data?.msg || "Login failed");
