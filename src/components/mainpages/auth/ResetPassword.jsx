@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import authApi from "../../../api/authApi";
 
 function ResetPassword() {
@@ -7,14 +7,12 @@ function ResetPassword() {
   const [password, setPassword] = useState("");
 
   const submitHandler = async (e) => {
+    const navigate = useNavigate();
     e.preventDefault();
     try {
-      await authApi.put(
-        `/user/reset-password/${token}`,
-        { password },
-      );
+      await authApi.put(`/user/reset-password/${token}`, { password });
       alert("Password updated successfully");
-      window.location.href = "/login";
+      navigate("/login");
     } catch (err) {
       alert(err.response?.data?.msg);
     }

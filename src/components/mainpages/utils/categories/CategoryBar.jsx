@@ -48,34 +48,3 @@ function CategoryBar() {
 }
 
 export default CategoryBar;
-
-// import React, { useContext } from "react";
-// import { useNavigate } from "react-router-dom";
-// import GlobalState from "../../../../GlobalState";
-// import "./CategoryBar.css";
-
-// function CategoryBar() {
-//   const state = useContext(GlobalState);
-//   const [categories] = state.categoriesAPI.categories;
-//   const [activeCategory] = state.productAPI.category;
-//   const navigate = useNavigate();
-
-//   return (
-//     <div className="category-bar">
-//       {categories.map((cat) => (
-//         <div
-//           key={cat._id}
-//           className={`category-item ${
-//             activeCategory === cat._id ? "active" : ""
-//           }`}
-//           onClick={() => navigate(`/category/${cat._id}`)}
-//         >
-//           <img src={cat.image} alt={cat.name} />
-//           <p>{cat.name}</p>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// }
-
-// export default CategoryBar;

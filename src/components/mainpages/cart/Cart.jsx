@@ -38,22 +38,6 @@ function Cart() {
       <h2 style={{ textAlign: "center", marginTop: "40px" }}>Cart Empty</h2>
     );
 
-  // const checkout = async () => {
-  //   try {
-  //     await authApi.post(
-  //       `/api/order`,
-  //       { cart },
-  //       // { headers: { Authorization: token } },
-  //       { headers: { Authorization: `Bearer ${token}` } },
-  //     );
-
-  //     alert("Order placed successfully ✅");
-  //     setCart([]);
-  //     window.location.href = "/history";
-  //   } catch (err) {
-  //     alert(err.response?.data?.msg || "Checkout failed");
-  //   }
-  // };
   const checkout = () => {
     navigate("/checkout");
   };

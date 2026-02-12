@@ -15,17 +15,12 @@ function CategoryPage() {
   const [total] = state.productAPI.total;
   const [isAdmin] = state.userAPI.isAdmin;
 
-  // // 🔥 set category from URL
-  // useEffect(() => {
-  //   setCategory(id);
-  //   setPage(1);
-  // }, [id]);
   useEffect(() => {
     setCategory(id);
     setPage(1);
 
     return () => {
-      setCategory(""); // 🔥 CLEANUP
+      setCategory("");
     };
   }, [id]);
 

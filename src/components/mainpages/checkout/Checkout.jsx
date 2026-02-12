@@ -3,7 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 import authApi from "../../../api/authApi";
 import "./Checkout.css";
 import GlobalState from "../../../GlobalState";
+import { useNavigate } from "react-router-dom";
 function Checkout() {
+  const navigate = useNavigate();
   const state = useContext(GlobalState);
   const [cart, setCart] = state.userAPI.cart;
   const [token] = state.token;
@@ -69,7 +71,7 @@ function Checkout() {
         setCart([]);
         await authApi.patch("/user/addcart", { cart: [] });
 
-        window.location.href = "/history";
+        navigate("/history");
       } else {
         // Razorpay flow
         const { data } = await authApi.post(
@@ -95,7 +97,7 @@ function Checkout() {
             setCart([]);
             await authApi.patch("/user/addcart", { cart: [] });
 
-            window.location.href = "/history";
+            navigate("/history");
           },
         };
 
