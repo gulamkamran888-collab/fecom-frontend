@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
+
 import GlobalState from "../../../GlobalState";
 import "./Cart.css";
-import authApi from "../../../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
+  const navigate = useNavigate();
   const state = useContext(GlobalState);
   const [cart, setCart] = state.userAPI.cart;
-  const [token] = state.token;
 
   const increase = (id) => {
     const newCart = cart.map((item) =>
@@ -37,21 +38,24 @@ function Cart() {
       <h2 style={{ textAlign: "center", marginTop: "40px" }}>Cart Empty</h2>
     );
 
-  const checkout = async () => {
-    try {
-      await authApi.post(
-        `/api/order`,
-        { cart },
-        // { headers: { Authorization: token } },
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
+  // const checkout = async () => {
+  //   try {
+  //     await authApi.post(
+  //       `/api/order`,
+  //       { cart },
+  //       // { headers: { Authorization: token } },
+  //       { headers: { Authorization: `Bearer ${token}` } },
+  //     );
 
-      alert("Order placed successfully ✅");
-      setCart([]);
-      window.location.href = "/history";
-    } catch (err) {
-      alert(err.response?.data?.msg || "Checkout failed");
-    }
+  //     alert("Order placed successfully ✅");
+  //     setCart([]);
+  //     window.location.href = "/history";
+  //   } catch (err) {
+  //     alert(err.response?.data?.msg || "Checkout failed");
+  //   }
+  // };
+  const checkout = () => {
+    navigate("/checkout");
   };
 
   return (

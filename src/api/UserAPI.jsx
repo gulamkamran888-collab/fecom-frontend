@@ -38,7 +38,7 @@ function UserAPI(token) {
         await authApi.patch(
           "/user/addcart",
           { cart },
-          // { headers: { Authorization: `Bearer ${token}` } },
+          { headers: { Authorization: `Bearer ${token}` } },
         );
       } catch (err) {
         console.log("Cart save error", err);

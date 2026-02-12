@@ -16,6 +16,7 @@ import Profile from "./profile/Profile";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
 import AdminProductList from "./admin/adminProductList/AdminProductList";
+import Checkout from "./checkout/Checkout";
 
 function Pages() {
   return (
@@ -36,6 +37,7 @@ function Pages() {
       <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="/admin/products" element={<AdminProductList />} />
       <Route path="/admin/edit-product/:id" element={<CreateProduct />} />
+      <Route path="/checkout" element={<Checkout />} />
     </Routes>
   );
 }
