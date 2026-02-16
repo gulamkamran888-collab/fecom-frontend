@@ -1,4 +1,4 @@
-
+/* 
 
 .category-container {
   max-width: 1000px;
@@ -11,7 +11,7 @@
   margin-bottom: 20px;
 }
 
-/* FORM */
+
 .category-form {
   background: #fff;
   padding: 20px;
@@ -47,7 +47,7 @@
   color: white;
 }
 
-/* IMAGE PREVIEW */
+
 .preview {
   text-align: center;
   margin-bottom: 10px;
@@ -61,7 +61,6 @@
   border: 1px solid #ddd;
 }
 
-/* CATEGORY GRID */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -87,7 +86,7 @@
   margin: 10px 0;
 }
 
-/* ACTIONS */
+
 .actions {
   display: flex;
   justify-content: space-between;
@@ -110,4 +109,192 @@
 .actions button:last-child {
   background: #ff4d4f;
   color: white;
+} */
+
+
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.category-container {
+  padding: 40px 30px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  font-family: "Inter", sans-serif;
+}
+
+.category-container h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #1e293b;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.category-form {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+  display: grid;
+  gap: 15px;
+  max-width: 500px;
+}
+
+.category-form input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.category-form input:focus {
+  border-color: #4f46e5;
+  outline: none;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+/* =========================
+   IMAGE PREVIEW
+========================= */
+
+.preview {
+  display: flex;
+  justify-content: center;
+}
+
+.preview img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   FORM BUTTON
+========================= */
+
+.category-form button {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.category-form button.create {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+}
+
+.category-form button.update {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+.category-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================
+   CATEGORY GRID
+========================= */
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+/* =========================
+   CATEGORY CARD
+========================= */
+
+.category-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+  transition: all 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.category-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.category-card h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #334155;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.actions button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.actions button:first-child {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.actions button:last-child {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.actions button:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .category-container {
+    padding: 20px;
+  }
+
+  .category-form {
+    max-width: 100%;
+  }
 }

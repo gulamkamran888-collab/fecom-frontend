@@ -1,4 +1,4 @@
-.header-search {
+/* .header-search {
   width: 350px;
   padding: 8px 12px;
   border-radius: 4px;
@@ -9,5 +9,139 @@
   .header-search {
     width: 100%;
     margin: 10px 0;
+  }
+} */
+
+/* =========================
+   SEARCH INPUT
+========================= */
+/* 
+.header-search {
+  width: 240px;
+  height: 40px;
+  padding: 0 18px;
+
+  border-radius: 25px;
+  border: none;
+  outline: none;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+
+.header-search::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+
+.header-search:focus {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.7);
+  transform: scale(1.05);
+}
+
+
+@media (max-width: 1000px) {
+  .header-search {
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-search {
+    display: none;
+  }
+} */
+
+
+
+
+/* =========================================
+   HEADER SEARCH – PREMIUM SAAS STYLE
+========================================= */
+
+/* 
+   Uses same CSS variables defined in Headers.css.
+   If used standalone, make sure variables exist.
+*/
+
+.header-search {
+  width: 100%;
+  max-width: 260px;
+
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-family: var(--font-family);
+
+  color: var(--color-text);
+  background: #fff;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+
+  outline: none;
+  transition: var(--transition);
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Placeholder Styling */
+.header-search::placeholder {
+  color: var(--color-light-text);
+  font-weight: 400;
+}
+
+/* Focus State (Premium SaaS Glow) */
+.header-search:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  background: #fff;
+}
+
+/* Hover State */
+.header-search:hover {
+  border-color: var(--color-primary);
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+/* 📱 Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .header-search {
+    max-width: 100%;
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+}
+
+/* 📱 Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+  .header-search {
+    max-width: 200px;
+  }
+}
+
+/* 💻 Laptop (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .header-search {
+    max-width: 220px;
+  }
+}
+
+/* 🖥 Desktop (min-width: 1025px) */
+@media (min-width: 1025px) {
+  .header-search {
+    max-width: 260px;
   }
 }

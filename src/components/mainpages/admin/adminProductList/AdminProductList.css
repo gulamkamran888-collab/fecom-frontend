@@ -1,45 +1,100 @@
-.admin-products {
-  padding: 20px;
+
+:root {
+  --primary: #1976d2;
+  --primary-dark: #125aa3;
+  --danger: #e53935;
+  --danger-dark: #c62828;
+  --bg: #f4f6f9;
+  --card-bg: #ffffff;
+  --border: #e0e0e0;
+  --radius: 14px;
+  --transition: 0.3s;
 }
+
+.admin-products {
+  padding: 30px;
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* ================= HEADER ================= */
 
 .admin-products-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.admin-products-header h2 {
+  margin: 0;
+  border-left: 6px solid var(--primary);
+  padding-left: 12px;
 }
 
 .btn-add {
-  background: #0a5cff;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
   text-decoration: none;
+  transition: var(--transition);
+  font-weight: 500;
 }
+
+.btn-add:hover {
+  background: var(--primary-dark);
+}
+
+/* ================= TABLE ================= */
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
-th,
-td {
-  padding: 12px;
-  border-bottom: 1px solid #e5e5e5;
+thead {
+  background: #f1f3f6;
+}
+
+thead th {
+  padding: 14px;
   text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
 }
 
-th {
-  background: #f8f8f8;
+tbody tr {
+  transition: var(--transition);
 }
 
-td img {
-  width: 60px;
-  height: 60px;
+tbody tr:hover {
+  background: #f9fafc;
+}
+
+tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* ================= IMAGE ================= */
+
+tbody img {
+  width: 55px;
+  height: 55px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
 }
+
+/* ================= ACTION BUTTONS ================= */
 
 .actions {
   display: flex;
@@ -47,18 +102,65 @@ td img {
 }
 
 .btn-edit {
-  background: #ffc107;
-  padding: 6px 10px;
-  border-radius: 5px;
+  padding: 6px 12px;
+  background: #e3f2fd;
+  color: var(--primary);
+  border-radius: 6px;
   text-decoration: none;
-  color: black;
+  font-size: 13px;
+  transition: var(--transition);
+}
+
+.btn-edit:hover {
+  background: #bbdefb;
 }
 
 .btn-delete {
-  background: #dc3545;
-  color: white;
+  padding: 6px 12px;
+  background: #ffebee;
+  color: var(--danger);
   border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 13px;
+  transition: var(--transition);
 }
+
+.btn-delete:hover {
+  background: #ffcdd2;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+  }
+
+  tbody td {
+    border: none;
+    padding: 6px 0;
+  }
+
+  .actions {
+    margin-top: 8px;
+  }
+}
+

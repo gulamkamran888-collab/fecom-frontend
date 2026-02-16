@@ -1,49 +1,125 @@
+
+/* =========================
+   FOOTER BASE
+========================= */
+
 .footer {
-  background-color: #172337;
-  color: #fff;
-  margin-top: 40px;
+  background: linear-gradient(135deg, #141e30, #243b55);
+  color: #ffffff;
+  padding-top: 60px;
+  font-family: inherit;
 }
+
+/* =========================
+   TOP SECTION
+========================= */
 
 .footer-top {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 30px;
-  padding: 40px 60px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  padding: 0 70px 50px 70px;
 }
 
 .footer-col h4 {
-  margin-bottom: 15px;
   font-size: 16px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  position: relative;
 }
 
+/* Underline accent */
+.footer-col h4::after {
+  content: "";
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  border-radius: 4px;
+}
+
+/* Text */
 .footer-col p {
   font-size: 14px;
-  color: #ccc;
+  color: #d1d5db;
+  line-height: 1.6;
 }
 
+/* Links */
 .footer-col a {
   display: block;
-  color: #ccc;
-  font-size: 14px;
-  margin-bottom: 8px;
   text-decoration: none;
+  color: #d1d5db;
+  font-size: 14px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
 }
 
 .footer-col a:hover {
-  color: #fff;
+  color: #00f2fe;
+  transform: translateX(5px);
 }
+
+/* =========================
+   BOTTOM SECTION
+========================= */
 
 .footer-bottom {
   text-align: center;
-  padding: 15px;
-  background-color: #0f1a2b;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
   font-size: 14px;
-  color: #aaa;
+  color: #ccc;
+  background: rgba(0, 0, 0, 0.2);
 }
 
-/* Mobile */
-@media (max-width: 600px) {
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* 📱 Mobile (max-width: 480px) */
+@media (max-width: 480px) {
   .footer-top {
-    padding: 30px 20px;
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    gap: 30px;
+  }
+
+  .footer-col h4 {
+    font-size: 0.9rem;
+  }
+
+  .footer-col p,
+  .footer-col a {
+    font-size: 0.8rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.75rem;
+  }
+}
+
+/* 📱 Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+  .footer-top {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 50px 40px;
+  }
+}
+
+/* 💻 Laptop (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .footer-top {
+    padding: 60px 60px;
+  }
+}
+
+/* 🖥 Desktop (min-width: 1025px) */
+@media (min-width: 1025px) {
+  .footer-top {
+    max-width: 1400px;
+    margin: 0 auto;
   }
 }

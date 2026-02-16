@@ -71,7 +71,7 @@ function Checkout() {
         setCart([]);
         await authApi.patch("/user/addcart", { cart: [] });
 
-        navigate("/history");
+        navigate("/Success");
       } else {
         // Razorpay flow
         const { data } = await authApi.post(
@@ -97,7 +97,7 @@ function Checkout() {
             setCart([]);
             await authApi.patch("/user/addcart", { cart: [] });
 
-            navigate("/history");
+            navigate("/Success");
           },
         };
 

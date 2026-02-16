@@ -17,6 +17,7 @@ import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
 import AdminProductList from "./admin/adminProductList/AdminProductList";
 import Checkout from "./checkout/Checkout";
+import Success from "./success/Success";
 
 function Pages() {
   return (
@@ -38,6 +39,7 @@ function Pages() {
       <Route path="/admin/products" element={<AdminProductList />} />
       <Route path="/admin/edit-product/:id" element={<CreateProduct />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/Success" element={<Success />} />
     </Routes>
   );
 }

@@ -1,7 +1,7 @@
-.slider-container {
+/* .slider-container {
   width: 100%;
   height: 400px;
-  overflow: hidden; /* 🔥 image bahar nahi jayegi */
+  overflow: hidden; 
 }
 
 .slide {
@@ -13,11 +13,11 @@
 .slide img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 🔥 image fit */
+  object-fit: cover; 
   display: block;
 }
 
-/* DARK OVERLAY */
+
 .overlay {
   position: absolute;
   top: 0;
@@ -51,4 +51,185 @@
   color: #000;
   cursor: pointer;
   border-radius: 4px;
+} */
+
+
+
+/* =========================================
+   HOME SLIDER – PREMIUM HERO DESIGN
+========================================= */
+
+.slider-container {
+  width: 100%;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+/* Individual Slide */
+.slide {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+/* Slide Image */
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 6s ease-in-out;
+}
+
+/* Smooth zoom animation */
+.swiper-slide-active .slide img {
+  transform: scale(1.08);
+}
+
+/* Dark Gradient Overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 60px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.85) 0%,
+    rgba(15, 23, 42, 0.6) 40%,
+    rgba(15, 23, 42, 0.1) 70%,
+    transparent 100%
+  );
+
+  color: #ffffff;
+}
+
+/* Title */
+.overlay h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+/* Subtitle */
+.overlay p {
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+/* CTA Button */
+.overlay button {
+  width: fit-content;
+  padding: 10px 22px;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  background: var(--color-primary);
+  color: #fff;
+
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+}
+
+.overlay button:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+}
+
+/* =========================================
+   SWIPER CUSTOM IMPROVEMENTS
+========================================= */
+
+.swiper {
+  border-radius: 16px;
+}
+
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (MOBILE-FIRST)
+========================================= */
+
+/* 📱 Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .slide {
+    height: 260px;
+    border-radius: 10px;
+  }
+
+  .overlay {
+    padding: 20px;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.85) 0%,
+      rgba(15, 23, 42, 0.6) 50%,
+      transparent 100%
+    );
+  }
+
+  .overlay h2 {
+    font-size: 1.4rem;
+  }
+
+  .overlay p {
+    font-size: 0.85rem;
+  }
+
+  .overlay button {
+    font-size: 0.8rem;
+    padding: 8px 16px;
+  }
+}
+
+/* 📱 Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+  .slide {
+    height: 320px;
+  }
+
+  .overlay {
+    padding-left: 30px;
+  }
+
+  .overlay h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* 💻 Laptop (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .slide {
+    height: 380px;
+  }
+
+  .overlay h2 {
+    font-size: 2.1rem;
+  }
+}
+
+/* 🖥 Desktop (min-width: 1025px) */
+@media (min-width: 1025px) {
+  .slide {
+    height: 450px;
+  }
+
+  .overlay h2 {
+    font-size: 2.7rem;
+  }
 }

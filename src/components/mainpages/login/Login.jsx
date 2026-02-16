@@ -1,18 +1,103 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import "./Login.css";
+// import { useContext } from "react";
+// import GlobalState from "../../../GlobalState";
+// import publicApi from "../../../api/publicApi";
+
+// function Login() {
+//   const navigate = useNavigate();
+//   const state = useContext(GlobalState);
+//   const [, setToken] = state.token;
+//   const [user, setUser] = useState({
+//     email: "",
+//     password: "",
+//   });
+
+//   const onChangeInput = (e) => {
+//     const { name, value } = e.target;
+//     setUser({ ...user, [name]: value });
+//   };
+
+//   const loginSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const res = await publicApi.post(
+//         `/user/login`,
+//         { ...user },
+//         { withCredentials: true },
+//       );
+//       localStorage.setItem("firstLogin", true);
+//       localStorage.setItem("accessToken", res.data.accesstoken);
+//       setToken(res.data.accesstoken);
+
+//       if (res.data.user.role === 1) {
+//         // window.location.href = "/admin/dashboard";
+//         navigate("/admin/dashboard");
+//       } else {
+//         // window.location.href = "/";
+//         navigate("/");
+//       }
+//     } catch (error) {
+//       alert(error.response?.data?.msg || "Login failed");
+//     }
+//   };
+
+//   return (
+//     <div className="login-container">
+//       <form className="login-card" onSubmit={loginSubmit}>
+//         <h2>Welcome Back 👋</h2>
+//         <p>Login to continue shopping</p>
+
+//         <input
+//           type="email"
+//           name="email"
+//           required
+//           placeholder="Email"
+//           value={user.email}
+//           onChange={onChangeInput}
+//         />
+
+//         <input
+//           type="password"
+//           name="password"
+//           required
+//           placeholder="Password"
+//           value={user.password}
+//           onChange={onChangeInput}
+//         />
+//         <Link to="/forgot-password">Forgot Password?</Link>
+
+//         <button type="submit">Login</button>
+
+//         <div className="login-footer">
+//           <span>New here?</span>
+//           <Link to="/register">Create Account</Link>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// }
+
+// export default Login;
+
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
-import { useContext } from "react";
 import GlobalState from "../../../GlobalState";
 import publicApi from "../../../api/publicApi";
+import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
   const state = useContext(GlobalState);
   const [, setToken] = state.token;
+
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -21,58 +106,73 @@ function Login() {
 
   const loginSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await publicApi.post(
         `/user/login`,
         { ...user },
         { withCredentials: true },
       );
+
       localStorage.setItem("firstLogin", true);
       localStorage.setItem("accessToken", res.data.accesstoken);
       setToken(res.data.accesstoken);
 
       if (res.data.user.role === 1) {
-        // window.location.href = "/admin/dashboard";
         navigate("/admin/dashboard");
       } else {
-        // window.location.href = "/";
         navigate("/");
       }
     } catch (error) {
       alert(error.response?.data?.msg || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container">
       <form className="login-card" onSubmit={loginSubmit}>
-        <h2>Welcome Back 👋</h2>
-        <p>Login to continue shopping</p>
+        <h2 className="login-title">Welcome Back 👋</h2>
+        <p className="login-subtitle">Login to continue shopping</p>
 
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder="Email"
-          value={user.email}
-          onChange={onChangeInput}
-        />
+        <div className="input-group">
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="Enter your email"
+            value={user.email}
+            onChange={onChangeInput}
+          />
+        </div>
 
-        <input
-          type="password"
-          name="password"
-          required
-          placeholder="Password"
-          value={user.password}
-          onChange={onChangeInput}
-        />
-        <Link to="/forgot-password">Forgot Password?</Link>
+        <div className="input-group">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            required
+            placeholder="Enter your password"
+            value={user.password}
+            onChange={onChangeInput}
+          />
+        </div>
 
-        <button type="submit">Login</button>
+        <div className="forgot-password">
+          <Link to="/forgot-password">Forgot Password?</Link>
+        </div>
+
+        <button type="submit" className="login-btn" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
 
         <div className="login-footer">
           <span>New here?</span>
-          <Link to="/register">Create Account</Link>
+          <Link to="/register" className="register-link">
+            Create Account
+          </Link>
         </div>
       </form>
     </div>

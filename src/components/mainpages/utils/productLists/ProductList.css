@@ -1,4 +1,4 @@
-.product-card {
+/* .product-card {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -18,8 +18,8 @@
 .product-card img {
   width: 100%;
   height: 220px;
-  object-fit: contain;        /* 🔥 full image visible */
-  background: #f5f5f5;        /* white images ke liye */
+  object-fit: contain;       
+  background: #f5f5f5;        
   padding: 10px;
 }
   
@@ -86,4 +86,140 @@
   background: #000;
 }
 
+ */
+
+
+
+
+ /* =========================
+   PRODUCT CARD
+========================= */
+
+.product-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 280px;
+  margin: 15px;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================
+   PRODUCT IMAGE
+========================= */
+
+.product-image {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f9fc;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-image img:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   PRODUCT INFO
+========================= */
+
+.product-info {
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product-info h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.description {
+  font-size: 13px;
+  color: #555;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================
+   ACTIONS (BUTTONS)
+========================= */
+
+.product-actions {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  gap: 10px;
+  border-top: 1px solid #eee;
+}
+
+.product-actions button {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.product-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .product-card {
+    max-width: 100%;
+  }
+
+  .product-info h2 {
+    font-size: 16px;
+  }
+
+  .price {
+    font-size: 15px;
+  }
+
+  .description {
+    font-size: 12px;
+    height: auto;
+  }
+}
 

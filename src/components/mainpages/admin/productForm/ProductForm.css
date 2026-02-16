@@ -1,146 +1,139 @@
-/* ===== Product Form Container ===== */
+
+:root {
+  --primary: #1976d2;
+  --primary-dark: #125aa3;
+  --bg: #f4f6f9;
+  --card-bg: #ffffff;
+  --border: #e0e0e0;
+  --radius: 14px;
+  --transition: 0.3s;
+}
+
 .product-form {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 32px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  max-width: 1000px;
+  margin: 30px auto;
 }
 
-/* ===== Heading ===== */
 .product-form h2 {
+  margin-bottom: 25px;
+  border-left: 6px solid var(--primary);
+  padding-left: 12px;
   font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  color: #111827;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 12px;
 }
 
-/* ===== Grid Layout ===== */
+/* ================= GRID ================= */
+
 .product-form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
-/* ===== Full Width Fields ===== */
-.product-form .full-width {
+.full-width {
   grid-column: span 2;
 }
 
-/* ===== Labels ===== */
+/* ================= INPUTS ================= */
+
 .product-form label {
   display: block;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
   margin-bottom: 6px;
-  color: #374151;
+  font-weight: 500;
 }
 
-/* ===== Inputs & Select ===== */
 .product-form input,
-.product-form textarea,
-.product-form select {
+.product-form select,
+.product-form textarea {
   width: 100%;
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid #d1d5db;
-  background: #ffffff;
+  border: 1px solid var(--border);
   font-size: 14px;
-  color: #111827;
+  transition: var(--transition);
+  background: #fafafa;
+}
+
+.product-form input:focus,
+.product-form select:focus,
+.product-form textarea:focus {
   outline: none;
-  transition: all 0.2s ease;
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
 }
 
 .product-form textarea {
+  min-height: 90px;
   resize: vertical;
-  min-height: 120px;
 }
 
-/* ===== Focus State ===== */
-.product-form input:focus,
-.product-form textarea:focus,
-.product-form select:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
+/* ================= IMAGE PREVIEW ================= */
 
-/* ===== Image Preview ===== */
 .product-image-preview {
-  margin-top: 12px;
-  width: 160px;
-  height: 160px;
-  border-radius: 10px;
+  margin-top: 15px;
+  width: 180px;
+  height: 180px;
   object-fit: cover;
-  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
-/* ===== Buttons Wrapper ===== */
+/* ================= BUTTONS ================= */
+
 .product-form-actions {
+  margin-top: 30px;
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 30px;
+  gap: 15px;
 }
 
-/* ===== Primary Button ===== */
-.product-form button {
-  padding: 12px 22px;
-  font-size: 14px;
-  font-weight: 500;
+.btn-primary {
+  padding: 10px 18px;
   border-radius: 8px;
   border: none;
+  background: var(--primary);
+  color: #fff;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-weight: 500;
+  transition: var(--transition);
 }
 
-/* ===== Save Button ===== */
-.product-form .btn-primary {
-  background: #2563eb;
-  color: #ffffff;
+.btn-primary:hover {
+  background: var(--primary-dark);
 }
 
-.product-form .btn-primary:hover {
-  background: #1e40af;
-}
-
-/* ===== Secondary Button ===== */
-.product-form .btn-secondary {
-  background: #f3f4f6;
-  color: #374151;
-}
-
-.product-form .btn-secondary:hover {
-  background: #e5e7eb;
-}
-
-/* ===== Error Text ===== */
-.product-form .error-text {
-  margin-top: 6px;
-  font-size: 13px;
-  color: #dc2626;
-}
-
-/* ===== Disabled ===== */
-.product-form button:disabled {
-  opacity: 0.6;
+.btn-primary:disabled {
+  background: #90caf9;
   cursor: not-allowed;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .product-form {
-    padding: 24px;
-  }
+.btn-secondary {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: var(--transition);
+}
 
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
   .product-form-grid {
     grid-template-columns: 1fr;
   }
 
-  .product-form .full-width {
+  .full-width {
     grid-column: span 1;
   }
 
@@ -148,7 +141,8 @@
     flex-direction: column;
   }
 
-  .product-form button {
+  .btn-primary,
+  .btn-secondary {
     width: 100%;
   }
 }
