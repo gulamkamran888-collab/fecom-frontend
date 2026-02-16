@@ -98,8 +98,11 @@ function Register() {
     e.preventDefault();
     setLoading(true);
     try {
-      await publicApi.post(`/user/register`, { ...user });
+      const res = await publicApi.post(`/user/register`, { ...user });
+
       localStorage.setItem("firstRegister", true);
+
+      alert(res.data.msg);
       navigate("/login");
     } catch (error) {
       alert(error.response?.data?.msg || "Register failed");
