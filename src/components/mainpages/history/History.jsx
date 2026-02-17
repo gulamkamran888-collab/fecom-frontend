@@ -97,7 +97,7 @@ export const History = () => {
         try {
           setLoading(true);
           const res = await authApi.get(`/api/history`, {
-            headers: { Authorization: token },
+            headers: { Authorization: `Bearer ${token}` },
           });
           setOrders(res.data);
         } catch (err) {
@@ -112,7 +112,6 @@ export const History = () => {
 
   const handleCancel = async (id) => {
     try {
-
       await authApi.patch(
         `/api/order/cancel/${id}`,
         {},
