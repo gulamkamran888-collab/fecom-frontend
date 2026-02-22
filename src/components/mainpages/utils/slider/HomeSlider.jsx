@@ -4,7 +4,6 @@ import "swiper/css";
 
 import SwiperCore from "swiper";
 import { Autoplay } from "swiper/modules";
-import "./HomeSlider.css";
 
 SwiperCore.use([Autoplay]);
 
@@ -30,21 +29,60 @@ function HomeSlider() {
     },
   ];
 
+  // return (
+  //   <div className="slider-container">
+  //     <Swiper
+  //       slidesPerView={1}
+  //       loop={true}
+  //       autoplay={{ delay: 3000, disableOnInteraction: false }}
+  //     >
+  //       {slides.map((slide, index) => (
+  //         <SwiperSlide key={index}>
+  //           <div className="slide">
+  //             <img src={slide.image} alt="banner" />
+  //             <div className="overlay">
+  //               <h2>{slide.title}</h2>
+  //               <p>{slide.subtitle}</p>
+  //               <button>Shop Now</button>
+  //             </div>
+  //           </div>
+  //         </SwiperSlide>
+  //       ))}
+  //     </Swiper>
+  //   </div>
+  // );
+
   return (
-    <div className="slider-container">
+    <div className="w-full">
       <Swiper
         slidesPerView={1}
         loop={true}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        autoplay={{ delay: 3500, disableOnInteraction: false }}
+        className="rounded-2xl overflow-hidden"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="slide">
-              <img src={slide.image} alt="banner" />
-              <div className="overlay">
-                <h2>{slide.title}</h2>
-                <p>{slide.subtitle}</p>
-                <button>Shop Now</button>
+            <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px]">
+              {/* Background Image */}
+              <img
+                src={slide.image}
+                alt="banner"
+                className="w-full h-full object-cover"
+              />
+
+              {/* Dark Overlay */}
+              <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center px-6">
+                <h2 className="text-white text-2xl md:text-4xl lg:text-5xl font-bold mb-4">
+                  {slide.title}
+                </h2>
+
+                <p className="text-white text-lg md:text-xl mb-6">
+                  {slide.subtitle}
+                </p>
+
+                <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 active:scale-95">
+                  Shop Now
+                </button>
               </div>
             </div>
           </SwiperSlide>
