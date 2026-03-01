@@ -19,7 +19,9 @@ export const DataProvider = ({ children }) => {
       localStorage.setItem("accessToken", res.data.accesstoken);
       setToken(res.data.accesstoken);
     } catch (error) {
-      alert(error.response?.data?.msg || "Login failed");
+      localStorage.removeItem("accessToken");
+      setToken(null);
+      navigate("/login");
     }
   };
 

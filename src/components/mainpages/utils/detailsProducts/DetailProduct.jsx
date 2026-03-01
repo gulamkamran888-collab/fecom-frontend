@@ -29,39 +29,6 @@ function DetailProduct() {
   if (loading) return <h2 className="loading">Loading...</h2>;
   if (!detailProduct) return <h2 className="loading">Product not found</h2>;
 
-  // return (
-  //   <div className="detail-container">
-  //     <div className="detail-card">
-  //       <div className="detail-image">
-  //         <img
-  //           src={detailProduct.images?.url || "/no-image.png"}
-  //           alt={detailProduct.title}
-  //         />
-  //       </div>
-
-  //       <div className="detail-info">
-  //         <h2>{detailProduct.title}</h2>
-  //         <span className="product-id">SKU: {detailProduct.product_id}</span>
-
-  //         <div className="price">₹{detailProduct.price}</div>
-
-  //         <p className="description">{detailProduct.description}</p>
-  //         <p className="content">{detailProduct.content}</p>
-  //         <p className="sold">Sold: {detailProduct.sold}</p>
-
-  //         <button
-  //           className="buy-btn"
-  //           onClick={() => {
-  //             addCart(detailProduct);
-  //             navigate("/cart");
-  //           }}
-  //         >
-  //           Buy Now
-  //         </button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">

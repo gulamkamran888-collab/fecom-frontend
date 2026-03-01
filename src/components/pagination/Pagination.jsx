@@ -22,34 +22,6 @@ function Pagination({ page, setPage, total = 0, limit = 6 }) {
     return pages;
   };
 
-  // return (
-  //   <div className="pagination">
-  //     <button disabled={page === 1} onClick={() => setPage(page - 1)}>
-  //       Prev
-  //     </button>
-
-  //     {getPages().map((p, i) =>
-  //       p === "..." ? (
-  //         <span key={i} className="dots">
-  //           …
-  //         </span>
-  //       ) : (
-  //         <button
-  //           key={i}
-  //           className={page === p ? "active" : ""}
-  //           onClick={() => setPage(p)}
-  //         >
-  //           {p}
-  //         </button>
-  //       ),
-  //     )}
-
-  //     <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
-  //       Next
-  //     </button>
-  //   </div>
-  // );
-
   return (
     <div className="flex justify-center items-center gap-2 mt-10 flex-wrap">
       {/* PREV */}

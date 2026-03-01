@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import GlobalState from "../../../../GlobalState";
 import authApi from "../../../../api/authApi";
+import Swal from "sweetalert2";
 
 const initialState = {
   product_id: "",
@@ -41,7 +42,10 @@ function ProductForm({ isEdit = false, productId = null }) {
           });
           setImages(res.data.images);
         } catch (err) {
-          alert("Failed to load product");
+          Swal.fire({
+            icon: "error",
+            title: "Failed to load product",
+          });
         }
       };
       fetchProduct();
@@ -63,8 +67,14 @@ function ProductForm({ isEdit = false, productId = null }) {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 1024 * 1024) return alert("Image size should be under 1MB");
-
+    if (file.size > 1024 * 1024) {
+      Swal.fire({
+        icon: "warning",
+        title: "Image Too Large",
+        text: "Image size should be under 1MB",
+      });
+      return;
+    }
     const formData = new FormData();
     formData.append("file", file);
 
@@ -77,7 +87,11 @@ function ProductForm({ isEdit = false, productId = null }) {
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      alert(err.response?.data?.msg || "Image upload failed");
+      Swal.fire({
+        icon: "error",
+        title: "Upload Failed",
+        text: err.response?.data?.msg || "Image upload failed",
+      });
     }
   };
 
@@ -87,8 +101,14 @@ function ProductForm({ isEdit = false, productId = null }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!images) return alert("Please upload product image");
-
+    if (!images) {
+      Swal.fire({
+        icon: "warning",
+        title: "Image Required",
+        text: "Please upload product image",
+      });
+      return;
+    }
     try {
       setLoading(true);
 
@@ -98,14 +118,28 @@ function ProductForm({ isEdit = false, productId = null }) {
           { ...product, images },
           { headers: { Authorization: `Bearer ${token}` } },
         );
-        alert("Product updated successfully");
+        await Swal.fire({
+          icon: "success",
+          title: isEdit
+            ? "Product updated successfully 🎉"
+            : "Product created successfully 🎉",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         await authApi.post(
           `/api/products`,
           { ...product, images },
           { headers: { Authorization: `Bearer ${token}` } },
         );
-        alert("Product created successfully");
+        await Swal.fire({
+          icon: "success",
+          title: isEdit
+            ? "Product updated successfully 🎉"
+            : "Product created successfully 🎉",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setProduct(initialState);
         setImages(null);
       }
@@ -113,116 +147,13 @@ function ProductForm({ isEdit = false, productId = null }) {
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      alert(err.response?.data?.msg || "Something went wrong");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.response?.data?.msg || "Something went wrong",
+      });
     }
   };
-
-  // return (
-  //   <form className="product-form" onSubmit={handleSubmit}>
-  //     <h2>{isEdit ? "Edit Product" : "Create Product"}</h2>
-
-  //     <div className="product-form-grid">
-  //       <div>
-  //         <label>Product ID</label>
-  //         <input
-  //           name="product_id"
-  //           value={product.product_id}
-  //           onChange={handleChange}
-  //           disabled={isEdit}
-  //         />
-  //       </div>
-
-  //       <div>
-  //         <label>Title</label>
-  //         <input
-  //           name="title"
-  //           value={product.title}
-  //           onChange={handleChange}
-  //           required
-  //         />
-  //       </div>
-
-  //       <div>
-  //         <label>Price</label>
-  //         <input
-  //           type="number"
-  //           name="price"
-  //           value={product.price}
-  //           onChange={handleChange}
-  //           required
-  //         />
-  //       </div>
-
-  //       <div>
-  //         <label>Category</label>
-  //         <select
-  //           name="category"
-  //           value={product.category}
-  //           onChange={handleChange}
-  //           required
-  //         >
-  //           <option value="">Select Category</option>
-  //           {categories.map((c) => (
-  //             <option value={c._id} key={c._id}>
-  //               {c.name}
-  //             </option>
-  //           ))}
-  //         </select>
-  //       </div>
-
-  //       <div className="full-width">
-  //         <label>Description</label>
-  //         <textarea
-  //           name="description"
-  //           value={product.description}
-  //           onChange={handleChange}
-  //         />
-  //       </div>
-
-  //       <div className="full-width">
-  //         <label>Content</label>
-  //         <textarea
-  //           name="content"
-  //           value={product.content}
-  //           onChange={handleChange}
-  //         />
-  //       </div>
-
-  //       <div className="full-width">
-  //         <label>Product Image</label>
-  //         <input
-  //           type="file"
-  //           accept="image/png, image/jpeg, image/webp"
-  //           onChange={handleUpload}
-  //         />
-
-  //         {loading && <p>Uploading...</p>}
-
-  //         {images && (
-  //           <img
-  //             src={images.url}
-  //             alt="product"
-  //             className="product-image-preview"
-  //           />
-  //         )}
-  //       </div>
-  //     </div>
-
-  //     <div className="product-form-actions">
-  //       <button
-  //         type="button"
-  //         className="btn-secondary"
-  //         onClick={() => window.history.back()}
-  //       >
-  //         Cancel
-  //       </button>
-
-  //       <button type="submit" className="btn-primary" disabled={loading}>
-  //         {isEdit ? "Update Product" : "Create Product"}
-  //       </button>
-  //     </div>
-  //   </form>
-  // );
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-10">

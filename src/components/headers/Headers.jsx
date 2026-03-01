@@ -5,6 +5,7 @@ import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import GlobalState from "../../GlobalState";
 import HeaderSearch from "../search/HeaderSearch";
 import authApi from "../../api/authApi";
+import Swal from "sweetalert2";
 
 function Headers() {
   const navigate = useNavigate();
@@ -14,13 +15,61 @@ function Headers() {
   const [cart, setCart] = state.userAPI.cart;
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // const logoutUser = async () => {
+  //   await authApi.get(`/user/logout`);
+  //   localStorage.clear();
+  //   setIsAdmin(false);
+  //   setIsLogged(false);
+  //   setCart([]);
+  //   navigate("/login");
+  // };
+
   const logoutUser = async () => {
-    await authApi.get(`/user/logout`);
-    localStorage.clear();
-    setIsAdmin(false);
-    setIsLogged(false);
-    setCart([]);
-    navigate("/login");
+    const confirm = await Swal.fire({
+      title: "Logout?",
+      text: "Are you sure you want to logout?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Logout",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+      Swal.fire({
+        title: "Logging out...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      await authApi.get(`/user/logout`, { withCredentials: true });
+
+      // Clear local data
+      localStorage.clear();
+      setIsAdmin(false);
+      setIsLogged(false);
+      setCart([]);
+
+      Swal.close();
+
+      await Swal.fire({
+        icon: "success",
+        title: "Logged Out Successfully 👋",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+
+      navigate("/login");
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Logout Failed ❌",
+        text: err.response?.data?.msg || "Something went wrong",
+      });
+    }
   };
 
   const activeClass = "text-indigo-600 border-b-2 border-indigo-600 pb-1";

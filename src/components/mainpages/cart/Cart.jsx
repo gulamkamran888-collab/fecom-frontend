@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import GlobalState from "../../../GlobalState";
 
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Cart() {
   const navigate = useNavigate();
@@ -25,10 +26,31 @@ function Cart() {
     setCart(newCart);
   };
 
-  const removeItem = (id) => {
-    if (window.confirm("Remove this product from cart?")) {
-      setCart(cart.filter((item) => item._id !== id));
-    }
+  // const removeItem = (id) => {
+  //   if (window.confirm("Remove this product from cart?")) {
+  //     setCart(cart.filter((item) => item._id !== id));
+  //   }
+  // };
+  const removeItem = async (id) => {
+    const result = await Swal.fire({
+      title: "Remove Product?",
+      text: "Are you sure you want to remove this item from cart?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Remove",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    setCart(cart.filter((item) => item._id !== id));
+
+    Swal.fire({
+      icon: "success",
+      title: "Removed Successfully 🗑️",
+      timer: 1200,
+      showConfirmButton: false,
+    });
   };
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);

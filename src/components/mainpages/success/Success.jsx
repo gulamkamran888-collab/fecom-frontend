@@ -1,22 +1,6 @@
 import React from "react";
 
 function Success() {
-  // return (
-  //   <div className="success-container">
-  //     <div className="success-card">
-  //       <div className="success-icon">✔</div>
-  //       <h1>Order Placed Successfully</h1>
-  //       <p>
-  //         Thank you for shopping with us. Your order has been placed
-  //         successfully and is being processed.
-  //       </p>
-  //       <a href="/history" className="success-btn">
-  //         View My Orders
-  //       </a>
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-slate-100 px-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-slate-200 p-10 text-center">

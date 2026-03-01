@@ -1,98 +1,138 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import publicApi from "../../../api/publicApi";
+import Swal from "sweetalert2";
 
 function Register() {
   const navigate = useNavigate();
+
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
+
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
+  // 🔐 PASSWORD STRENGTH CHECKER
+  const passwordStrength = useMemo(() => {
+    const { password } = user;
+
+    if (!password) return "";
+
+    const hasUpper = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&*]/.test(password);
+
+    if (password.length < 6) return "Weak";
+    if (password.length >= 6 && (hasUpper || hasNumber)) return "Medium";
+    if (password.length >= 8 && hasUpper && hasNumber && hasSpecial)
+      return "Strong";
+
+    return "Weak";
+  }, [user.password]);
+
+  const passwordsMatch =
+    user.confirmPassword && user.password === user.confirmPassword;
+
+  // const registerSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (user.password !== user.confirmPassword) {
+  //     alert("Passwords do not match");
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   try {
+  //     const res = await publicApi.post(`/user/register`, {
+  //       name: user.name,
+  //       email: user.email,
+  //       password: user.password,
+  //     });
+
+  //     localStorage.setItem("firstRegister", true);
+
+  //     alert(res.data.msg);
+  //     navigate("/login");
+  //   } catch (error) {
+  //     alert(error.response?.data?.msg || "Register failed");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const registerSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+
+    if (user.password !== user.confirmPassword) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password Mismatch",
+        text: "Passwords do not match",
+      });
+      return;
+    }
+
     try {
-      const res = await publicApi.post(`/user/register`, { ...user });
+      setLoading(true);
+
+      Swal.fire({
+        title: "Creating Account...",
+        text: "Please wait",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      const res = await publicApi.post(`/user/register`, {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      });
+
+      Swal.close();
 
       localStorage.setItem("firstRegister", true);
 
-      alert(res.data.msg);
+      await Swal.fire({
+        icon: "success",
+        title: "Registration Successful 🎉",
+        text: res.data.msg || "Account created successfully",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.msg || "Register failed");
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed ❌",
+        text: error.response?.data?.msg || "Register failed",
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  // return (
-  //   <div className="register-container">
-  //     <form className="register-card" onSubmit={registerSubmit}>
-  //       <h2 className="register-title">Create Account 🚀</h2>
-  //       <p className="register-subtitle">Join us and start shopping</p>
-
-  //       <div className="input-group">
-  //         <label>Full Name</label>
-  //         <input
-  //           type="text"
-  //           name="name"
-  //           required
-  //           placeholder="Enter your full name"
-  //           value={user.name}
-  //           onChange={onChangeInput}
-  //         />
-  //       </div>
-
-  //       <div className="input-group">
-  //         <label>Email Address</label>
-  //         <input
-  //           type="email"
-  //           name="email"
-  //           required
-  //           placeholder="Enter your email"
-  //           value={user.email}
-  //           onChange={onChangeInput}
-  //         />
-  //       </div>
-
-  //       <div className="input-group">
-  //         <label>Password</label>
-  //         <input
-  //           type="password"
-  //           name="password"
-  //           required
-  //           placeholder="Enter a secure password"
-  //           value={user.password}
-  //           onChange={onChangeInput}
-  //         />
-  //       </div>
-
-  //       <button type="submit" className="register-btn" disabled={loading}>
-  //         {loading ? "Creating Account..." : "Register"}
-  //       </button>
-
-  //       <div className="register-footer">
-  //         <span>Already have an account?</span>
-  //         <Link to="/login" className="login-link">
-  //           Login
-  //         </Link>
-  //       </div>
-  //     </form>
-  //   </div>
-  // );
+  const strengthColor =
+    passwordStrength === "Weak"
+      ? "text-red-500"
+      : passwordStrength === "Medium"
+        ? "text-yellow-500"
+        : "text-green-600";
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 px-4">
       <div className="w-full max-w-md bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200 p-8">
-        {/* TITLE */}
         <div className="text-center mb-8">
           <h2 className="text-2xl font-semibold text-slate-900">
             Create Account 🚀
@@ -102,7 +142,6 @@ function Register() {
           </p>
         </div>
 
-        {/* FORM */}
         <form onSubmit={registerSubmit} className="space-y-6">
           {/* FULL NAME */}
           <div>
@@ -113,10 +152,9 @@ function Register() {
               type="text"
               name="name"
               required
-              placeholder="Enter your full name"
               value={user.name}
               onChange={onChangeInput}
-              className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+              className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none"
             />
           </div>
 
@@ -129,10 +167,9 @@ function Register() {
               type="email"
               name="email"
               required
-              placeholder="Enter your email"
               value={user.email}
               onChange={onChangeInput}
-              className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+              className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none"
             />
           </div>
 
@@ -141,18 +178,69 @@ function Register() {
             <label className="block text-sm font-medium text-slate-700 mb-2">
               Password
             </label>
-            <input
-              type="password"
-              name="password"
-              required
-              placeholder="Enter a secure password"
-              value={user.password}
-              onChange={onChangeInput}
-              className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                required
+                value={user.password}
+                onChange={onChangeInput}
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 text-sm text-slate-500"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            {/* Strength Indicator */}
+            {passwordStrength && (
+              <p className={`text-sm mt-2 font-medium ${strengthColor}`}>
+                Strength: {passwordStrength}
+              </p>
+            )}
           </div>
 
-          {/* BUTTON */}
+          {/* CONFIRM PASSWORD */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Confirm Password
+            </label>
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                required
+                value={user.confirmPassword}
+                onChange={onChangeInput}
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-3 text-sm text-slate-500"
+              >
+                {showConfirmPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            {/* Match Indicator */}
+            {user.confirmPassword && (
+              <p
+                className={`text-sm mt-2 font-medium ${
+                  passwordsMatch ? "text-green-600" : "text-red-500"
+                }`}
+              >
+                {passwordsMatch
+                  ? "Passwords Match ✅"
+                  : "Passwords Do Not Match ❌"}
+              </p>
+            )}
+          </div>
+
           <button
             type="submit"
             disabled={loading}
@@ -161,7 +249,6 @@ function Register() {
             {loading ? "Creating Account..." : "Register"}
           </button>
 
-          {/* FOOTER */}
           <div className="text-center text-sm text-slate-600 pt-4">
             Already have an account?{" "}
             <Link

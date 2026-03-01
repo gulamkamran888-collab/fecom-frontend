@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import GlobalState from "../../../GlobalState";
 
 import authApi from "../../../api/authApi";
+import Swal from "sweetalert2";
 
 export const History = () => {
   const state = useContext(GlobalState);
@@ -31,109 +32,73 @@ export const History = () => {
   }, [token]);
 
   const handleCancel = async (id) => {
+    const confirm = await Swal.fire({
+      title: "Cancel Order?",
+      text: "Are you sure you want to cancel this order?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Cancel Order",
+      cancelButtonText: "Keep Order",
+    });
+
+    if (!confirm.isConfirmed) return;
+
     try {
+      Swal.fire({
+        title: "Cancelling Order...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
       await authApi.patch(
         `/api/order/cancel/${id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
+      Swal.close();
+
       setOrders((prev) =>
         prev.map((order) =>
           order._id === id ? { ...order, status: "Cancelled" } : order,
         ),
       );
+
+      Swal.fire({
+        icon: "success",
+        title: "Order Cancelled Successfully ❌",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     } catch (err) {
-      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Cancellation Failed",
+        text: err.response?.data?.msg || "Something went wrong",
+      });
     }
   };
 
-  // return (
-  //   <div className="history-page">
-  //     <h2>My Orders</h2>
+  // const handleCancel = async (id) => {
+  //   try {
+  //     await authApi.patch(
+  //       `/api/order/cancel/${id}`,
+  //       {},
+  //       { headers: { Authorization: `Bearer ${token}` } },
+  //     );
 
-  //     {loading ? (
-  //       <p className="loading">Loading orders...</p>
-  //     ) : orders.length === 0 ? (
-  //       <p className="no-orders">No orders yet. Start shopping now!</p>
-  //     ) : (
-  //       orders.map((order) => (
-  //         <div className="order-card" key={order._id}>
-  //           <div className="order-header">
-  //             <div>
-  //               <p className="order-id">Order ID: {order._id}</p>
-  //               <p className="order-date">
-  //                 {new Date(order.createdAt).toLocaleDateString()}
-  //               </p>
-  //             </div>
+  //     setOrders((prev) =>
+  //       prev.map((order) =>
+  //         order._id === id ? { ...order, status: "Cancelled" } : order,
+  //       ),
+  //     );
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  //             <span
-  //               className={`order-status status-${order.status?.toLowerCase()}`}
-  //             >
-  //               {order.status}
-  //             </span>
-  //           </div>
-
-  //           <div className="order-info">
-  //             <p>
-  //               <strong>Total:</strong> ₹{order.total}
-  //             </p>
-
-  //             <p>
-  //               <strong>Payment:</strong>
-  //               <span
-  //                 className={`payment-badge payment-${order.paymentStatus?.toLowerCase()}`}
-  //               >
-  //                 {order.paymentStatus}
-  //               </span>
-  //             </p>
-
-  //             <p>
-  //               <strong>Delivery:</strong>
-  //               <span
-  //                 className={`delivery-badge delivery-${order.deliveryStatus?.toLowerCase()}`}
-  //               >
-  //                 {order.deliveryStatus}
-  //               </span>
-  //             </p>
-  //           </div>
-
-  //           <div className="order-items">
-  //             {order.cart.map((item) => (
-  //               <div className="order-item" key={item._id}>
-  //                 <img
-  //                   src={item.images?.url || "/no-image.png"}
-  //                   alt={item.title}
-  //                 />
-  //                 <div>
-  //                   <p>{item.title}</p>
-  //                   <p>
-  //                     {item.quantity} × ₹{item.price}
-  //                   </p>
-  //                 </div>
-  //               </div>
-  //             ))}
-  //           </div>
-
-  //           <div className="order-actions">
-  //             <Link to={`/order/${order._id}`} className="details-btn">
-  //               View Details
-  //             </Link>
-
-  //             {order.status === "Pending" && (
-  //               <button
-  //                 className="cancel-btn"
-  //                 onClick={() => handleCancel(order._id)}
-  //               >
-  //                 Cancel Order
-  //               </button>
-  //             )}
-  //           </div>
-  //         </div>
-  //       ))
-  //     )}
-  //   </div>
-  // );
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">

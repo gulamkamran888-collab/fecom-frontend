@@ -23,30 +23,6 @@ function CategoryPage() {
     };
   }, [id, setCategory, setPage]);
 
-  // return (
-  //   <div className="category-page-container">
-  //     <h2 className="category-title">Categories Products</h2>
-
-  //     <div className="products-grid">
-  //       {products.length === 0 ? (
-  //         <p className="no-products">No products found in this category.</p>
-  //       ) : (
-  //         products.map((product) => (
-  //           <ProductList
-  //             key={product._id}
-  //             product={product}
-  //             isAdmin={isAdmin}
-  //           />
-  //         ))
-  //       )}
-  //     </div>
-
-  //     <div className="pagination-wrapper">
-  //       <Pagination page={page} setPage={setPage} total={total} />
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">

@@ -9,7 +9,8 @@ function CategoriesAPI() {
       const res = await publicApi.get(`/api/category`);
       setCategories(res.data);
     } catch (err) {
-      alert(err.response?.data?.msg || "Failed to load categories");
+      res.status(400).json({msg:"Failed to load categories",success:false,err})
+      // alert(err.response?.data?.msg || "Failed to load categories");
     }
   };
 

@@ -5,76 +5,67 @@ import { Link } from "react-router-dom";
 import GlobalState from "../../../../GlobalState";
 import authApi from "../../../../api/authApi";
 import Pagination from "../../../pagination/Pagination";
+import Swal from "sweetalert2";
 
 function AdminProductList() {
   const state = useContext(GlobalState);
   const [token] = state.token;
   const [page, setPage] = state.productAPI.page;
   const [total] = state.productAPI.total;
-  const [products] = state.productAPI.products;
+  const [products, setProducts] = state.productAPI.products;
 
+  // const deleteProduct = async (id) => {
+  //   if (!window.confirm("Delete this product?")) return;
+
+  //   await authApi.delete(`/api/products/${id}`, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   });
+  // };
   const deleteProduct = async (id) => {
-    if (!window.confirm("Delete this product?")) return;
-
-    await authApi.delete(`/api/products/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    const confirm = await Swal.fire({
+      title: "Delete Product?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#d33",
     });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+      Swal.fire({
+        title: "Deleting Product...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      await authApi.delete(`/api/products/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      Swal.close();
+
+      // Optional: Remove from UI immediately
+      setProducts((prev) => prev.filter((product) => product._id !== id));
+
+      Swal.fire({
+        icon: "success",
+        title: "Product Deleted Successfully 🗑️",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Delete Failed ❌",
+        text: err.response?.data?.msg || "Something went wrong",
+      });
+    }
   };
-
-  // return (
-  //   <div className="admin-products">
-  //     <div className="admin-products-header">
-  //       <h2>All Products</h2>
-  //       <Link to="/admin/create-product" className="btn-add">
-  //         + Add Product
-  //       </Link>
-  //     </div>
-
-  //     <table>
-  //       <thead>
-  //         <tr>
-  //           <th>Image</th>
-  //           <th>Title</th>
-  //           <th>Price</th>
-  //           <th>Category</th>
-  //           <th>Actions</th>
-  //         </tr>
-  //       </thead>
-
-  //       <tbody>
-  //         {products
-  //           .filter((p) => p.images && p.images.url)
-  //           .map((p) => (
-  //             <tr key={p._id}>
-  //               <td>
-  //                 {/* <img src={p.images.url} alt={p.title} /> */}
-  //                 <img src={p.images?.url || "/no-image.png"} alt={p.title} />
-  //               </td>
-  //               <td>{p.title}</td>
-  //               <td>₹{p.price}</td>
-  //               <td>{p.category?.name || "—"}</td>
-  //               <td className="actions">
-  //                 <Link
-  //                   to={`/admin/edit-product/${p._id}`}
-  //                   className="btn-edit"
-  //                 >
-  //                   Edit
-  //                 </Link>
-  //                 <button
-  //                   onClick={() => deleteProduct(p._id)}
-  //                   className="btn-delete"
-  //                 >
-  //                   Delete
-  //                 </button>
-  //               </td>
-  //             </tr>
-  //           ))}
-  //       </tbody>
-  //     </table>
-  //     <Pagination page={page} setPage={setPage} total={total} limit={6} />
-  //   </div>
-  // );
-
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
       {/* HEADER */}

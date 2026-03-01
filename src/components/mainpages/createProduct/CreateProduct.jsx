@@ -3,6 +3,7 @@ import ProductForm from "../admin/productForm/ProductForm";
 import GlobalState from "../../../GlobalState";
 import { useParams } from "react-router-dom";
 import authApi from "../../../api/authApi";
+import Swal from "sweetalert2";
 
 function CreateProduct() {
   const { id } = useParams();
@@ -10,24 +11,49 @@ function CreateProduct() {
   const [categories] = state.categoriesAPI.categories;
   const [token] = state.token;
 
+  // const handleSubmit = async (e, data) => {
+  //   e.preventDefault();
+  //   await authApi.post(`/api/products`, data, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   });
+  //   alert("Product created");
+  // };
   const handleSubmit = async (e, data) => {
     e.preventDefault();
-    await authApi.post(`/api/products`, data, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    alert("Product created");
+
+    try {
+      Swal.fire({
+        title: "Creating Product...",
+        text: "Please wait",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      await authApi.post(`/api/products`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      Swal.close();
+
+      await Swal.fire({
+        icon: "success",
+        title: "Product Created Successfully 🎉",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      // Optional redirect
+      navigate("/admin/products");
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Product Creation Failed ❌",
+        text: err.response?.data?.msg || "Something went wrong",
+      });
+    }
   };
-
-  // return (
-  //   <ProductForm
-  //     onSubmit={handleSubmit}
-  //     categories={categories}
-  //     product={{ product_id: "", title: "", price: "", category: "" }}
-  //     isEdit={!!id}
-  //     productId={id}
-  //   />
-  // );
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 px-4 sm:px-6 lg:px-8 py-10">
       <div className="max-w-5xl mx-auto">

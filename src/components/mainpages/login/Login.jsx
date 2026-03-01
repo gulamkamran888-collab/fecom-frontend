@@ -8,21 +8,45 @@ function Login() {
   const state = useContext(GlobalState);
   const [, setToken] = state.token;
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
+    setError("");
   };
 
   const loginSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user.email) {
+      setError("Email is required");
+      return;
+    }
+
+    // ✅ Proper Email Format Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(user.email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!user.password) {
+      setError("Password is required");
+      return;
+    }
+
     setLoading(true);
+
     try {
       const res = await publicApi.post(
         `/user/login`,
@@ -34,122 +58,89 @@ function Login() {
       localStorage.setItem("accessToken", res.data.accesstoken);
       setToken(res.data.accesstoken);
 
-      if (res.data.user.role === 1) {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/");
-      }
+      navigate(res.data.user.role === 1 ? "/admin/dashboard" : "/");
     } catch (error) {
-      alert(error.response?.data?.msg || "Login failed");
+      setError(error.response?.data?.msg || "Invalid credentials");
     } finally {
       setLoading(false);
     }
   };
 
-  // return (
-  //   <div className="login-container">
-  //     <form className="login-card" onSubmit={loginSubmit}>
-  //       <h2 className="login-title">Welcome Back 👋</h2>
-  //       <p className="login-subtitle">Login to continue shopping</p>
-
-  //       <div className="input-group">
-  //         <label>Email</label>
-  //         <input
-  //           type="email"
-  //           name="email"
-  //           required
-  //           placeholder="Enter your email"
-  //           value={user.email}
-  //           onChange={onChangeInput}
-  //         />
-  //       </div>
-
-  //       <div className="input-group">
-  //         <label>Password</label>
-  //         <input
-  //           type="password"
-  //           name="password"
-  //           required
-  //           placeholder="Enter your password"
-  //           value={user.password}
-  //           onChange={onChangeInput}
-  //         />
-  //       </div>
-
-  //       <div className="forgot-password">
-  //         <Link to="/forgot-password">Forgot Password?</Link>
-  //       </div>
-
-  //       <button type="submit" className="login-btn" disabled={loading}>
-  //         {loading ? "Logging in..." : "Login"}
-  //       </button>
-
-  //       <div className="login-footer">
-  //         <span>New here?</span>
-  //         <Link to="/register" className="register-link">
-  //           Create Account
-  //         </Link>
-  //       </div>
-  //     </form>
-  //   </div>
-  // );
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 px-4">
-      <div className="w-full max-w-md bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200 p-8">
-        {/* TITLE */}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-white to-slate-200 px-4">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 border border-slate-200">
+        {/* HEADER */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-semibold text-slate-900">
-            Welcome Back 👋
-          </h2>
-          <p className="text-slate-500 text-sm mt-2">
-            Login to continue shopping
-          </p>
+          <h2 className="text-3xl font-bold text-slate-800">Welcome Back 👋</h2>
+          <p className="text-slate-500 text-sm mt-2">Login to your account</p>
         </div>
 
-        {/* FORM */}
         <form onSubmit={loginSubmit} className="space-y-6">
           {/* EMAIL */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Email
+              Email Address
             </label>
+            {/* <input
+              type="email"
+              name="email"
+              value={user.email}
+              onChange={onChangeInput}
+              placeholder="Enter your email"
+              className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none transition"
+            /> */}
             <input
               type="email"
               name="email"
-              required
-              placeholder="Enter your email"
               value={user.email}
               onChange={onChangeInput}
-              className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+              placeholder="Enter your email"
+              className={`w-full px-4 py-3 rounded-xl border 
+  ${error.toLowerCase().includes("email") ? "border-red-500" : "border-slate-300"}
+  focus:ring-2 focus:ring-indigo-500 outline-none transition`}
             />
           </div>
 
           {/* PASSWORD */}
-          <div>
+          <div className="relative">
             <label className="block text-sm font-medium text-slate-700 mb-2">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
-              required
-              placeholder="Enter your password"
               value={user.password}
               onChange={onChangeInput}
-              className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+              placeholder="Enter your password"
+              className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none pr-14 transition"
             />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-[42px] text-sm text-indigo-600 font-medium"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
           </div>
 
           {/* FORGOT PASSWORD */}
           <div className="flex justify-end">
             <Link
               to="/forgot-password"
-              className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+              className="text-sm text-indigo-600 hover:underline"
             >
               Forgot Password?
             </Link>
           </div>
+
+          {/* ERROR MESSAGE */}
+          {error && (
+            <div className="bg-red-100 text-red-600 text-sm py-2 px-4 rounded-lg text-center">
+              {error}
+            </div>
+          )}
 
           {/* BUTTON */}
           <button
@@ -160,12 +151,12 @@ function Login() {
             {loading ? "Logging in..." : "Login"}
           </button>
 
-          {/* FOOTER */}
+          {/* REGISTER LINK */}
           <div className="text-center text-sm text-slate-600 pt-4">
-            New here?{" "}
+            Don’t have an account?{" "}
             <Link
               to="/register"
-              className="text-indigo-600 font-medium hover:text-indigo-700"
+              className="text-indigo-600 font-medium hover:underline"
             >
               Create Account
             </Link>

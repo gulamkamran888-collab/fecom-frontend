@@ -21,44 +21,6 @@ function Product() {
     setPage(1); // reset pagination
   }, []);
 
-  // return (
-  //   <div className="products-page">
-  //     {!isAdmin && (
-  //       <>
-  //         <HomeSlider />
-  //         <CategoryBar />
-  //       </>
-  //     )}
-
-  //     {/* SORT BAR */}
-  //     <div className="sort-bar">
-  //       <label htmlFor="sort-select">Sort By:</label>
-  //       <select id="sort-select" onChange={(e) => setSort(e.target.value)}>
-  //         <option value="">Latest</option>
-  //         <option value="title">A → Z</option>
-  //         <option value="-title">Z → A</option>
-  //       </select>
-  //     </div>
-
-  //     {/* PRODUCTS GRID */}
-  //     <div className="products-grid">
-  //       {products.length === 0 ? (
-  //         <p className="no-products">No products found</p>
-  //       ) : (
-  //         products.map((product) => (
-  //           <ProductList
-  //             key={product._id}
-  //             product={product}
-  //             isAdmin={isAdmin}
-  //           />
-  //         ))
-  //       )}
-  //     </div>
-
-  //     {/* PAGINATION */}
-  //     <Pagination page={page} setPage={setPage} total={total} limit={6} />
-  //   </div>
-  // );
   return (
     <div className="min-h-screen bg-slate-50">
       {/* HERO + CATEGORY */}

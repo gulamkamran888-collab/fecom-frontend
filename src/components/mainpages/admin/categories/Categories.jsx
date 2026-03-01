@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import GlobalState from "../../../../GlobalState";
 import authApi from "../../../../api/authApi";
+import Swal from "sweetalert2";
 
 function Category() {
   const state = useContext(GlobalState);
@@ -15,6 +16,7 @@ function Category() {
 
   const submitCategory = async (e) => {
     e.preventDefault();
+
     try {
       if (onEdit) {
         await authApi.put(
@@ -22,23 +24,41 @@ function Category() {
           { name, image },
           { headers: { Authorization: `Bearer ${token}` } },
         );
-        alert("Category Updated ✅");
+
+        await Swal.fire({
+          icon: "success",
+          title: "Category Updated ✅",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         await authApi.post(
           `/api/category`,
           { name, image },
           { headers: { Authorization: `Bearer ${token}` } },
         );
-        alert("Category Created ✅");
+
+        await Swal.fire({
+          icon: "success",
+          title: "Category Created ✅",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
 
+      // Reset form
       setName("");
       setImage("");
       setId("");
       setOnEdit(false);
+
       categoriesAPI.getCategories();
     } catch (err) {
-      alert(err.response?.data?.msg || "Something went wrong");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.response?.data?.msg || "Something went wrong",
+      });
     }
   };
 
@@ -49,63 +69,59 @@ function Category() {
     setOnEdit(true);
   };
 
-  const deleteCategory = async (id) => {
-    if (!window.confirm("Delete this category?")) return;
+  // const deleteCategory = async (id) => {
+  //   if (!window.confirm("Delete this category?")) return;
 
-    await authApi.delete(`/api/category/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+  //   await authApi.delete(`/api/category/${id}`, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   });
+
+  //   categoriesAPI.getCategories();
+  // };
+  const deleteCategory = async (id) => {
+    const confirm = await Swal.fire({
+      title: "Delete Category?",
+      text: "All products under this category may be affected!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#d33",
     });
 
-    categoriesAPI.getCategories();
+    if (!confirm.isConfirmed) return;
+
+    try {
+      Swal.fire({
+        title: "Deleting Category...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      await authApi.delete(`/api/category/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      Swal.close();
+
+      await categoriesAPI.getCategories();
+
+      Swal.fire({
+        icon: "success",
+        title: "Category Deleted Successfully 🗑️",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Delete Failed ❌",
+        text: err.response?.data?.msg || "Something went wrong",
+      });
+    }
   };
-
-  // return (
-  //   <div className="category-container">
-  //     <h2>📦 Manage Categories</h2>
-
-  //     <form className="category-form" onSubmit={submitCategory}>
-  //       <input
-  //         type="text"
-  //         placeholder="Category Name"
-  //         value={name}
-  //         onChange={(e) => setName(e.target.value)}
-  //         required
-  //       />
-
-  //       <input
-  //         type="text"
-  //         placeholder="Image URL"
-  //         value={image}
-  //         onChange={(e) => setImage(e.target.value)}
-  //         required
-  //       />
-
-  //       {image && (
-  //         <div className="preview">
-  //           <img src={image} alt="preview" />
-  //         </div>
-  //       )}
-
-  //       <button type="submit" className={onEdit ? "update" : "create"}>
-  //         {onEdit ? "Update Category" : "Create Category"}
-  //       </button>
-  //     </form>
-
-  //     <div className="category-grid">
-  //       {categories.map((cat) => (
-  //         <div className="category-card" key={cat._id}>
-  //           <img src={cat.image} alt={cat.name} />
-  //           <h4>{cat.name}</h4>
-
-  //           <div className="actions">
-  //             <button onClick={() => editCategory(cat)}>✏️ Edit</button>
-  //             <button onClick={() => deleteCategory(cat._id)}>🗑 Delete</button>
-  //           </div>
-  //         </div>
-  //       ))}
-  //     </div>
-  //   </div>
-  // );
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">

@@ -1,24 +1,6 @@
 import BtnRender from "./buttons/BtnRender";
 
 function ProductList({ product, onDelete }) {
-  // return (
-  //   <div className="product-card">
-  //     <div className="product-image">
-  //       <img src={product.images?.url || "/no-image.png"} alt={product.title} />
-  //     </div>
-
-  //     <div className="product-info">
-  //       <h2 title={product.title}>{product.title}</h2>
-  //       <span className="price">₹{product.price}</span>
-  //       <p className="description">{product.description}</p>
-  //     </div>
-
-  //     <div className="product-actions">
-  //       <BtnRender product={product} onDelete={onDelete} />
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col">
       {/* IMAGE */}

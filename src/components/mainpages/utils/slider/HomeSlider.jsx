@@ -29,29 +29,6 @@ function HomeSlider() {
     },
   ];
 
-  // return (
-  //   <div className="slider-container">
-  //     <Swiper
-  //       slidesPerView={1}
-  //       loop={true}
-  //       autoplay={{ delay: 3000, disableOnInteraction: false }}
-  //     >
-  //       {slides.map((slide, index) => (
-  //         <SwiperSlide key={index}>
-  //           <div className="slide">
-  //             <img src={slide.image} alt="banner" />
-  //             <div className="overlay">
-  //               <h2>{slide.title}</h2>
-  //               <p>{slide.subtitle}</p>
-  //               <button>Shop Now</button>
-  //             </div>
-  //           </div>
-  //         </SwiperSlide>
-  //       ))}
-  //     </Swiper>
-  //   </div>
-  // );
-
   return (
     <div className="w-full">
       <Swiper

@@ -1,39 +1,39 @@
 import React, { useState } from "react";
 import authApi from "../../../api/authApi";
+import Swal from "sweetalert2";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (!email) {
+      Swal.fire({
+        icon: "warning",
+        title: "Email Required",
+        text: "Please enter your email address",
+      });
+      return;
+    }
+
     try {
       const res = await authApi.post(`/user/forgot-password`, { email });
-      alert(res.data.msg);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Email Sent 📩",
+        text: res.data.msg,
+        confirmButtonColor: "#6366f1",
+      });
     } catch (err) {
-      alert(err.response?.data?.msg || "Something went wrong");
+      Swal.fire({
+        icon: "error",
+        title: "Request Failed",
+        text: err.response?.data?.msg || "Something went wrong",
+      });
     }
   };
-
-  // return (
-  //   <div className="forgot-container">
-  //     <form className="forgot-card" onSubmit={submitHandler}>
-  //       <h2>Forgot Password 🔒</h2>
-  //       <p>Enter your registered email to receive a reset link.</p>
-
-  //       <input
-  //         type="email"
-  //         placeholder="Enter your email"
-  //         value={email}
-  //         onChange={(e) => setEmail(e.target.value)}
-  //         required
-  //       />
-
-  //       <button type="submit" className="btn-submit">
-  //         Send Reset Link
-  //       </button>
-  //     </form>
-  //   </div>
-  // );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center px-4">

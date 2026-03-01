@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import authApi from "./authApi";
+import Swal from "sweetalert2";
 
 function UserAPI(token) {
   const [isLogged, setIsLogged] = useState(false);
@@ -49,15 +50,33 @@ function UserAPI(token) {
   }, [cart, token, isLogged]);
 
   // 🛒 ADD TO CART
-  const addCart = (product) => {
-    if (!isLogged) return alert("Please login");
-
+  const addCart = async (product) => {
+    if (!isLogged) {
+      await Swal.fire({
+        icon: "warning",
+        title: "Login Required",
+        text: "Please login to add items to cart",
+      });
+      return;
+    }
     const check = cart.every((item) => item._id !== product._id);
 
     if (check) {
       setCart([...cart, { ...product, quantity: 1 }]);
+      Swal.fire({
+        icon: "success",
+        title: "Added to Cart 🛒",
+        text: `${product.title} added successfully`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
-      alert("Product already in cart");
+      // alert("Product already in cart");
+      Swal.fire({
+        icon: "info",
+        title: "Already Added",
+        text: "Product is already in your cart",
+      });
     }
   };
 

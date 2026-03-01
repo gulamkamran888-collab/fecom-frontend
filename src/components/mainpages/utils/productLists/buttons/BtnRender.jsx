@@ -7,38 +7,6 @@ function BtnRender({ product }) {
   const [isAdmin] = state.userAPI.isAdmin;
   const addCart = state.userAPI.addCart;
 
-  // return (
-  //   <div className="btn-row">
-  //     {isAdmin ? (
-  //       <>
-  //         <Link
-  //           className="btn btn-danger"
-  //           to="#!"
-  //           onClick={() => alert("Delete functionality here")}
-  //         >
-  //           Delete
-  //         </Link>
-  //         <Link className="btn btn-secondary" to={`/detail/${product._id}`}>
-  //           Edit
-  //         </Link>
-  //       </>
-  //     ) : (
-  //       <>
-  //         <Link
-  //           className="btn btn-primary"
-  //           to="#!"
-  //           onClick={() => addCart(product)}
-  //         >
-  //           Add to Cart
-  //         </Link>
-  //         <Link className="btn btn-secondary" to={`/detail/${product._id}`}>
-  //           View
-  //         </Link>
-  //       </>
-  //     )}
-  //   </div>
-  // );
-
   return (
     <div className="flex gap-3">
       {isAdmin ? (

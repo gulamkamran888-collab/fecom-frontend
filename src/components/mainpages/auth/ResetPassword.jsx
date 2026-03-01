@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import authApi from "../../../api/authApi";
+import Swal from "sweetalert2";
 
 function ResetPassword() {
   const { token } = useParams();
@@ -13,40 +14,55 @@ function ResetPassword() {
     e.preventDefault();
 
     if (password.length < 6) {
-      return alert("Password must be at least 6 characters");
+      Swal.fire({
+        icon: "warning",
+        title: "Weak Password",
+        text: "Password must be at least 6 characters",
+      });
+      return;
     }
 
     try {
       setLoading(true);
+
       await authApi.put(`/user/reset-password/${token}`, { password });
-      alert("Password updated successfully ✅");
+
+      await Swal.fire({
+        icon: "success",
+        title: "Password Updated Successfully ✅",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
       navigate("/login");
     } catch (err) {
-      alert(err.response?.data?.msg || "Something went wrong");
+      Swal.fire({
+        icon: "error",
+        title: "Reset Failed",
+        text: err.response?.data?.msg || "Something went wrong",
+      });
     } finally {
       setLoading(false);
     }
   };
+  // const submitHandler = async (e) => {
+  //   e.preventDefault();
 
-  // return (
-  //   <div className="login-container">
-  //     <form className="login-card" onSubmit={submitHandler}>
-  //       <h2>Reset Password</h2>
+  //   if (password.length < 6) {
+  //     return alert("Password must be at least 6 characters");
+  //   }
 
-  //       <input
-  //         type="password"
-  //         placeholder="Enter new password"
-  //         value={password}
-  //         onChange={(e) => setPassword(e.target.value)}
-  //         required
-  //       />
-
-  //       <button type="submit" disabled={loading}>
-  //         {loading ? "Updating..." : "Reset Password"}
-  //       </button>
-  //     </form>
-  //   </div>
-  // );
+  //   try {
+  //     setLoading(true);
+  //     await authApi.put(`/user/reset-password/${token}`, { password });
+  //     alert("Password updated successfully ✅");
+  //     navigate("/login");
+  //   } catch (err) {
+  //     alert(err.response?.data?.msg || "Something went wrong");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center px-4">

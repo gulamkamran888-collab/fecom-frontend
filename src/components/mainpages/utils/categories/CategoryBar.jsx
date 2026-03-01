@@ -18,33 +18,6 @@ function CategoryBar() {
     }
   };
 
-  // return (
-  //   <div className="category-wrapper">
-  //     <button className="scroll-btn left" onClick={() => scroll("left")}>
-  //       ◀
-  //     </button>
-
-  //     <div className="category-bar" ref={scrollRef}>
-  //       {categories.map((cat) => (
-  //         <div
-  //           key={cat._id}
-  //           className={`category-item ${
-  //             activeCategory === cat._id ? "active" : ""
-  //           }`}
-  //           onClick={() => navigate(`/category/${cat._id}`)}
-  //         >
-  //           <img src={cat.image} alt={cat.name} />
-  //           <p>{cat.name}</p>
-  //         </div>
-  //       ))}
-  //     </div>
-
-  //     <button className="scroll-btn right" onClick={() => scroll("right")}>
-  //       ▶
-  //     </button>
-  //   </div>
-  // );
-
   return (
     <div className="relative w-full">
       {/* LEFT BUTTON */}
