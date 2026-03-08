@@ -26,7 +26,8 @@ function Pages() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/detail/:id" element={<DetailProduct />} />
+      {/* <Route path="/detail/:id" element={<DetailProduct />} /> */}
+      <Route path="/detail/:id" element={null} />
       <Route path="/history" element={<History />} />
       <Route path="/admin/orders" element={<AdminOrders />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
