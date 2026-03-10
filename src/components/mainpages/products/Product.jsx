@@ -165,7 +165,7 @@ function Product() {
         ) : products.length === 0 ? (
           /* EMPTY STATE */
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 text-center">
-            <p className="text-slate-500 text-lg">No products found</p>
+            <p className="text-slate-500 text-lg">Loading...</p>
           </div>
         ) : (
           /* PRODUCTS GRID */
